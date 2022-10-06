@@ -8,11 +8,50 @@
 	"item": [
 		{
 			"name": "http://image-filter-starter-code-dev222222222222222222222222.us-east-1.elasticbeanstalk.com/filteredimage?image_url=https://timedotcom.files.wordpress.com/2019/03/kitten-report.jpg",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"",
+							"const url = pm.request.url.query.image_url || undefined;",
+							"const test1 = () =>{",
+							"if(url === undefined || pm.response.status === 400){",
+							"        return false;",
+							"    }else{",
+							"    return true;",
+							"    }",
+							"}",
+							"pm.test(\"field is required\", function(){",
+							"    if(pm.request.url.query.image_url === undefined || pm.response.status === 400){",
+							"        console.log(\"field is required, url is not exist\");",
+							"        pm.expect(pm.response.text()).to.include(\"image url is required!\");",
+							"    }",
+							"})",
+							"",
+							"pm.test(\"test on status code 200, image is exist\", function(){",
+							"    if(test1()){",
+							"        console.log(\"status code 200\", test1(), \"image is exist\", pm.response.status, pm.response.text());",
+							"        pm.expect(pm.response.status).to.include(\"OK\");",
+							"    }",
+							"})",
+							"",
+							"pm.test(\"test on status code 400, image is not exist\", function(){",
+							"    if(!test1()){",
+							"        console.log(\"status code 400\", test1(), \"image does not exist\");",
+							"        pm.expect(pm.response.status).to.include(\"Bad Request\");",
+							"    }",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{HOST}}/filteredimage?image_url=https://cdn.britannica.com/07/5207-050-5BC9F251/Gray-wolf.jpg",
+					"raw": "{{HOST}}/filteredimage",
 					"host": [
 						"{{HOST}}"
 					],
@@ -22,7 +61,8 @@
 					"query": [
 						{
 							"key": "image_url",
-							"value": "https://cdn.britannica.com/07/5207-050-5BC9F251/Gray-wolf.jpg"
+							"value": "https://cdn.britannica.com/07/5207-050-5BC9F251/Gray-wolf.jpg",
+							"disabled": true
 						}
 					]
 				}
