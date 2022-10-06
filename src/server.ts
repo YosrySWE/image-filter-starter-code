@@ -37,7 +37,7 @@ import { filterImageFromURL, deleteLocalFiles } from "./util/util";
         res.status(500).json((err as Error).message);
       }
     } else {
-      res.send("You must enter image url");
+      res.status(400).send("image url is required!");
     }
   });
 
